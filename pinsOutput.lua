@@ -1,0 +1,23 @@
+gpio.mode(0, gpio.OUTPUT)
+gpio.mode(1, gpio.OUTPUT)
+gpio.mode(2, gpio.OUTPUT)
+gpio.mode(3, gpio.OUTPUT)
+gpio.mode(4, gpio.OUTPUT)
+gpio.mode(5, gpio.OUTPUT)
+gpio.mode(6, gpio.OUTPUT)
+gpio.mode(7, gpio.OUTPUT)
+gpio.mode(8, gpio.OUTPUT)
+ledState = 0
+
+tmr.alarm(0, 1000, 1, function()
+  ledState = 1 - ledState;
+  gpio.write(0, ledState)
+  gpio.write(1, ledState)
+  gpio.write(2, ledState)
+  gpio.write(3, ledState)
+  gpio.write(4, ledState)
+  gpio.write(5, ledState)
+  gpio.write(6, ledState)
+  gpio.write(7, ledState)
+  gpio.write(8, ledState)
+end)
