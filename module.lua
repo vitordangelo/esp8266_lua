@@ -1,9 +1,11 @@
 ledSiren = 0
+btnReset = 7
 sensor1 = 1
 sensor2 = 2
 siren = 3
 output1 = 7
 output2 = 5
+
 idTimersensorAlarm = 3
 
 gpio.mode(sensor1, gpio.INPUT, gpio.PULLUP)
@@ -12,6 +14,8 @@ gpio.mode(ledSiren, gpio.OUTPUT)
 gpio.mode(output1, gpio.OUTPUT)
 gpio.mode(output2, gpio.OUTPUT)
 gpio.mode(4, gpio.OUTPUT)
+gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
+
 ledState = 0
 ledD2State = 0
 
@@ -106,3 +110,14 @@ output2Desacive = function
   (n)
   gpio.write(output2, 0)
 end
+
+if (gpio.read(btnReset) == 0) then
+  print("Resetinnng")
+  file.remove("ssid")
+  file.remove("password")
+  file.remove("hash")
+end
+
+tmr.alarm(3, 3000, 1, function()
+  print("...")
+end) 

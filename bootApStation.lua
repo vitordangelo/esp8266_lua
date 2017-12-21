@@ -1,9 +1,11 @@
 timerIdConfigAp = 0
-
 ledState = 0
+
 ledBoardSmall = 0
+btnReset = 6
 
 gpio.mode(ledBoardSmall, gpio.OUTPUT)
+gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
 
 serverMode = function
   ()
@@ -36,6 +38,7 @@ serverMode = function
       file.write(hash)
       file.close()
     end
+    node.restart()
   end
 
   if server then
@@ -90,8 +93,18 @@ stationMode = function
   end)
 end
 
+if (gpio.read(btnReset) == 0) then
+  file.remove("ssid")
+  file.remove("password")
+  file.remove("hash")
+end
+
 if file.open("password") and file.open("ssid") then
   stationMode()
+  tmr.alarm(2, 10000, 0, function()
+    print(wifi.sta.getip())
+    dofile("module.lua")
+  end)
 else
   apMode()
 end
