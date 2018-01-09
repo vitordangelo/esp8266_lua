@@ -1,0 +1,1 @@
+sudo esptool.py --port /dev/ttyUSB0 --baud 115200 write_flash -fm dio -fs 32m 0x00000 nodemcu-master-12-modules-2018-01-04-10-39-04-integer.bin  
