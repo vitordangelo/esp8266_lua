@@ -1,8 +1,8 @@
-ledSiren = 4
-btnReset = 3
+ledSiren = 0
+btnReset = 7
 sensor1 = 1
 sensor2 = 2
-siren = 8
+siren = 3
 output1 = 7
 output2 = 5
 
@@ -13,7 +13,7 @@ gpio.mode(sensor2, gpio.INPUT, gpio.PULLUP)
 gpio.mode(ledSiren, gpio.OUTPUT)
 gpio.mode(output1, gpio.OUTPUT)
 gpio.mode(output2, gpio.OUTPUT)
-gpio.mode(siren, gpio.OUTPUT)
+gpio.mode(4, gpio.OUTPUT)
 gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
 
 ledState = 0
@@ -72,14 +72,12 @@ triggerOn = function
     ledState = 1 - ledState;
     gpio.write(ledSiren, ledState)
   end)
-  gpio.write(siren, 1)
 end
 
 triggerOff = function 
   ()
   tmr.unregister(0)
   gpio.write(ledSiren, 0)
-  gpio.write(siren, 0)
 end
 
 sensorAlarm = function
@@ -87,7 +85,6 @@ sensorAlarm = function
   tmr.alarm(idTimersensorAlarm, 100, 1, function()
     if (gpio.read(sensor1) == 0 or gpio.read(sensor2) == 0) then
       triggerOn()
-      print("BTN PRESSED")
     end
   end)  
 end
@@ -120,3 +117,7 @@ if (gpio.read(btnReset) == 0) then
   file.remove("password")
   file.remove("hash")
 end
+
+tmr.alarm(3, 3000, 1, function()
+  print("...")
+end) 
