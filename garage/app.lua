@@ -1,24 +1,3 @@
-ledSiren = 0
-btnReset = 7
-sensor1 = 1
-sensor2 = 2
-siren = 3
-output1 = 7
-output2 = 5
-
-idTimersensorAlarm = 3
-
-gpio.mode(sensor1, gpio.INPUT, gpio.PULLUP)
-gpio.mode(sensor2, gpio.INPUT, gpio.PULLUP)
-gpio.mode(ledSiren, gpio.OUTPUT)
-gpio.mode(output1, gpio.OUTPUT)
-gpio.mode(output2, gpio.OUTPUT)
-gpio.mode(4, gpio.OUTPUT)
-gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
-
-ledState = 0
-ledD2State = 0
-
 m = mqtt.Client("21b2d1b0416b9367f0ffb8b3c413d39a", 5)
 m:lwt("/lua/lwt", "disconnected", 0, 0)
 
