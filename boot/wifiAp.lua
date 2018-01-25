@@ -48,4 +48,10 @@ sv:listen(80, function(conn)
     sck:send("HTTP/1.0 200 OK\r\nServer: NodeMCU on ESP8266\r\nContent-Type: text/html\r\n\r\n<h1> V2Alarm</h1>")
   end)
   conn:on("sent", function(sck) sck:close() end)
+  
+  tmr.alarm(1, 5000, 0, function()
+    if (file.exists("ssid.txt")) then
+      node.restart()
+    end
+  end)
 end)
