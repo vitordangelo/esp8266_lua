@@ -89,14 +89,3 @@ output2Desacive = function
   (n)
   gpio.write(output2, 0)
 end
-
-if (gpio.read(btnReset) == 0) then
-  print("Resetinnng")
-  file.remove("ssid")
-  file.remove("password")
-  file.remove("hash")
-end
-
-tmr.alarm(3, 3000, 1, function()
-  print("...")
-end) 
