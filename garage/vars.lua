@@ -1,25 +1,20 @@
 --Input
-sensor1 = 1
-sensor2 = 2
-btnReset = 7
-gpio.mode(sensor1, gpio.INPUT, gpio.PULLUP)
-gpio.mode(sensor2, gpio.INPUT, gpio.PULLUP)
-gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
+sensorPresencePin = 3
+gpio.mode(sensorPresencePin, gpio.INPUT, gpio.PULLUP)
 
 --Output
-ledSiren = 0
-siren = 3
-output2 = 5
-output1 = 7
-gpio.mode(ledSiren, gpio.OUTPUT)
-gpio.mode(siren, gpio.OUTPUT)
-gpio.mode(output2, gpio.OUTPUT)
-gpio.mode(output1, gpio.OUTPUT)
+ledStatusAlarmPin = 4
+gpio.mode(ledStatusAlarmPin, gpio.OUTPUT)
+sirenePin = 5
+gpio.mode(sirenePin, gpio.OUTPUT)
+lamp = 8
+gpio.mode(lamp, gpio.OUTPUT)
 
 --Variables Control
-ledState = 0
-ledD2State = 0
+ledStatusAlarm = 0
 hash = node.chipid()
+alarmActiveDesactive = 0
 
 --Timers
-idTimersensorAlarm = 3
+timerActiveAlarm = 0
+timerSensorPresence = 1

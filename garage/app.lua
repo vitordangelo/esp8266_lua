@@ -2,12 +2,14 @@ m = mqtt.Client("21b2d1b0416b9367f0ffb8b3c413d39a", 5)
 m:lwt("/lua/lwt", "disconnected", 0, 0)
 
 m:on("connect",function(m) 
-  print("connection ") 
+  print("Connected to broker... ") 
   m:subscribe("/topic1",0,function(m) print("sub done") end)
 end )
 
 m:on("offline", function(conn)
-  print("disconnect to broker...")
+  print("Disconnect to broker...")
+  print("Will restart...")
+  node.restart()
 end)
 
 m:connect("v2alarm.ddns.net",1883,0,0)
@@ -15,77 +17,48 @@ m:connect("v2alarm.ddns.net",1883,0,0)
 m:on("message", function(client, topic, data) 
   if data ~= nil then
     print(data)
-    if data == "hi" then
-      print "hi!"
+    if data == "activeAlarm" then
+      activeAlarm()
     end
-    if data == "triggerOn" then
-      triggerOn()
-    end
-    if data == "triggerOff" then
-      triggerOff()
-    end
-    if data == "output1On" then
-      output1Active()
-    end
-    if data == "output1Off" then
-      output1Desacive()
-    end
-    if data == "output2On" then
-      output2Active()
-    end
-    if data == "output2Off" then
-      output2Desacive()
+    if data == "desactiveAlarm" then
+      desactiveAlarm()
     end
   end
 end)
 
-tmr.alarm(1, 1000, 1, function()
-  ledD2State = 1 - ledD2State;
-  gpio.write(4, ledD2State)
-  m:publish("/lua/topic", tostring(ledD2State), 0, 0)
-end)
+-- tmr.alarm(1, 1000, 1, function()
+--   ledD2State = 1 - ledD2State;
+--   gpio.write(ledStatus, ledD2State)
+--   m:publish("/lua/topic", tostring(ledD2State), 0, 0)
+-- end)
 
-triggerOn = function 
+activeAlarm = function 
   ()
-  tmr.alarm(0, 100, 1, function()
-    ledState = 1 - ledState;
-    gpio.write(ledSiren, ledState)
+  tmr.alarm(timerActiveAlarm, 1000, 1, function()
+    ledStatusAlarm = 1 - ledStatusAlarm;
+    gpio.write(ledStatusAlarmPin, ledStatusAlarm)
   end)
+  sensorPresence()
 end
 
-triggerOff = function 
+desactiveAlarm = function 
   ()
-  tmr.unregister(0)
-  gpio.write(ledSiren, 0)
+  tmr.unregister(timerActiveAlarm)
+  tmr.unregister(timerSensorPresence)
+  gpio.write(ledStatusAlarmPin, 0)
+  gpio.write(sirenePin, 0)
 end
 
-sensorAlarm = function
-  (n)
-  tmr.alarm(idTimersensorAlarm, 100, 1, function()
-    if (gpio.read(sensor1) == 0 or gpio.read(sensor2) == 0) then
-      triggerOn()
+sensorPresence = function
+  ()
+  tmr.alarm(timerSensorPresence, 100, 1, function()
+    if (gpio.read(sensorPresencePin) == 0) then
+      gpio.write(sirenePin, 1)
+      gpio.write(ledStatusAlarmPin, 0)
+      tmr.alarm(timerActiveAlarm, 100, 1, function()
+        ledStatusAlarm = 1 - ledStatusAlarm;
+        gpio.write(ledStatusAlarmPin, ledStatusAlarm)
+      end)
     end
-  end)  
-end
-
-sensorAlarm()
-
-output1Active = function
-  (n)
-  gpio.write(output1, 1)
-end
-
-output1Desacive = function
-  (n)
-  gpio.write(output1, 0)
-end
-
-output2Active = function
-  (n)
-  gpio.write(output2, 1)
-end
-
-output2Desacive = function
-  (n)
-  gpio.write(output2, 0)
+  end)
 end
