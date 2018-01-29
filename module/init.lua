@@ -15,10 +15,11 @@ if file.exists("ssid.txt") then
   wifi.sta.config(wifi_config)
   print("Mode Wifi: Station")
 
-  tmr.alarm(1, 10000, 0, function()
+  tmr.alarm(0, 10000, 0, function()
     print(wifi.sta.getip())
     dofile("vars.lua")
     dofile("app.lua")
+    dofile("reset.lua")
   end)
 
   else
