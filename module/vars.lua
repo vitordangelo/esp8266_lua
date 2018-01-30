@@ -1,8 +1,8 @@
 --Input
 centralAlarmStateInput = 2
 gpio.mode(centralAlarmStateInput, gpio.INPUT, gpio.PULLUP)
-centralAlarmFired = 1
-gpio.mode(centralAlarmFired, gpio.INPUT, gpio.PULLUP)
+centralAlarmTrigger = 1
+gpio.mode(centralAlarmTrigger, gpio.INPUT, gpio.PULLUP)
 btnReset = 3
 gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
 
@@ -18,10 +18,13 @@ gpio.mode(armDisarmOutput, gpio.OUTPUT)
 hash = node.chipid()
 alarmTrigger = 0
 alarmTriggerChanged = 0
+centralAlarmState = 0
+centralAlarmStateChanged = 0
 
 --Timers
 idTimerReset = 1
 idTimerCentralAlarmState = 2
+idTimerCentralAlarmTrigger = 3
 
 --Topics
 statusModuleTopic = "/lua/".. hash .."/state_alarm" 

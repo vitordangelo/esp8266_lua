@@ -85,11 +85,20 @@ disarmCentralAlarm = function
   print("disarmCentralAlarm")
 end
 
-tmr.alarm(idTimerCentralAlarmState, 1000, 1, function()
-  alarmTrigger = gpio.read(centralAlarmStateInput)
+tmr.alarm(idTimerCentralAlarmTrigger, 1000, 1, function()
+  alarmTrigger = gpio.read(centralAlarmTrigger)
   if (alarmTrigger ~= alarmTriggerChanged) then
     m:publish(statusTriggerTopic, alarmTrigger, 0, 0)
-    print(alarmTrigger)
+    print("alarmTrigger: " .. alarmTrigger)
     alarmTriggerChanged = alarmTrigger
+  end
+end)
+
+tmr.alarm(idTimerCentralAlarmState, 1000, 1, function()
+  centralAlarmState = gpio.read(centralAlarmStateInput)
+  if (centralAlarmState ~= centralAlarmStateChanged) then
+    m:publish(statusCentralAlarmTopic, centralAlarmState, 0, 0)
+    print("centralAlarmState " .. centralAlarmState)
+    centralAlarmStateChanged = centralAlarmState
   end
 end)
