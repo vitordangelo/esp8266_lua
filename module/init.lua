@@ -19,7 +19,7 @@ if file.exists("ssid.txt") then
     print(wifi.sta.getip())
     dofile("vars.lua")
     dofile("app.lua")
-    dofile("reset.lua")
+    -- dofile("reset.lua")
   end)
 
   else

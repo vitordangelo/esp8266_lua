@@ -1,17 +1,17 @@
 --Input
-centralAlarmStateInput = 2
+centralAlarmStateInput = 5
 gpio.mode(centralAlarmStateInput, gpio.INPUT, gpio.PULLUP)
-centralAlarmTrigger = 1
+centralAlarmTrigger = 8
 gpio.mode(centralAlarmTrigger, gpio.INPUT, gpio.PULLUP)
-btnReset = 3
+btnReset = 6
 gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
 
 --Output
-relayTimedOutput = 4
+relayTimedOutput = 7
 gpio.mode(relayTimedOutput, gpio.OUTPUT)
-relayOutput = 5
+relayOutput = 1
 gpio.mode(relayOutput, gpio.OUTPUT)
-armDisarmOutput = 6
+armDisarmOutput = 2
 gpio.mode(armDisarmOutput, gpio.OUTPUT)
 
 --Variables Control
@@ -27,9 +27,9 @@ idTimerCentralAlarmState = 2
 idTimerCentralAlarmTrigger = 3
 
 --Topics
-statusModuleTopic = "/lua/".. hash .."/state_alarm" 
-statusCentralAlarmTopic = "/lua/".. hash .."/state" 
-statusRelayFixedTopic = "/lua/".. hash .."/status_btn_fixed"
-statusRelayTimedTopic = "/lua/".. hash .."/status_btn_temp"
-statusArmDisarmCentralAlarmTopic = "/lua/".. hash .."/arm_disarm"
-statusTriggerTopic = "/lua/".. hash .."/trigger_state"
+statusModuleTopic = "v2tech/".. hash .."/state_alarm" 
+statusCentralAlarmTopic = "v2tech/".. hash .."/state" 
+statusRelayFixedTopic = "v2tech/".. hash .."/status_btn_fixed"
+statusRelayTimedTopic = "v2tech/".. hash .."/status_btn_temp"
+statusArmDisarmCentralAlarmTopic = "v2tech/".. hash .."/arm_disarm"
+statusTriggerTopic = "v2tech/".. hash .."/trigger_state"

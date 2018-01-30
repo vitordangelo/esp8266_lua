@@ -8,9 +8,11 @@ m:lwt(statusModuleTopic, "0", 0, 0)
 m:on("connect",function(m) 
   print("Connected to broker... ") 
   m:subscribe(statusArmDisarmCentralAlarmTopic, 0, function(m) print("sub done") end)
-  m:publish(statusModuleTopic, "1", 0, 0)
-  m:publish(statusRelayFixedTopic, "0", 0, 0)
-  m:publish(statusRelayTimedTopic, "0", 0, 0)
+  m:publish(statusModuleTopic, "1", 0, 1)
+  m:publish(statusRelayFixedTopic, "0", 0, 1)
+  m:publish(statusRelayTimedTopic, "0", 0, 1)
+  m:publish(statusTriggerTopic, "0", 0, 1)
+  m:publish(statusCentralAlarmTopic, "0", 0, 1)
 end )
 
 m:on("offline", function(conn)
@@ -48,28 +50,28 @@ end)
 relayOutputFixedOn = function 
   ()
   gpio.write(relayOutput, 1)
-  m:publish(statusRelayFixedTopic, "1", 0, 0)
+  m:publish(statusRelayFixedTopic, "1", 0, 1)
   print("relayOutputFixedOn")
 end
 
 relayOutputFixedOff = function 
   ()
   gpio.write(relayOutput, 0)
-  m:publish(statusRelayFixedTopic, "0", 0, 0)
+  m:publish(statusRelayFixedTopic, "0", 0, 1)
   print("relayOutputFixedOff")
 end
 
 relayTimedOutputOn = function 
   ()
   gpio.write(relayTimedOutput, 1)
-  m:publish(statusRelayTimedTopic, "1", 0, 0)
+  m:publish(statusRelayTimedTopic, "1", 0, 1)
   print("relayTimedOutputOn")
 end
 
 relayTimedOutputOff = function 
   ()
   gpio.write(relayTimedOutput, 0)
-  m:publish(statusRelayTimedTopic, "0", 0, 0)
+  m:publish(statusRelayTimedTopic, "0", 0, 1)
   print("relayTimedOutputOff")
 end
 
@@ -88,7 +90,7 @@ end
 tmr.alarm(idTimerCentralAlarmTrigger, 1000, 1, function()
   alarmTrigger = gpio.read(centralAlarmTrigger)
   if (alarmTrigger ~= alarmTriggerChanged) then
-    m:publish(statusTriggerTopic, alarmTrigger, 0, 0)
+    m:publish(statusTriggerTopic, alarmTrigger, 0, 1)
     print("alarmTrigger: " .. alarmTrigger)
     alarmTriggerChanged = alarmTrigger
   end
@@ -97,7 +99,7 @@ end)
 tmr.alarm(idTimerCentralAlarmState, 1000, 1, function()
   centralAlarmState = gpio.read(centralAlarmStateInput)
   if (centralAlarmState ~= centralAlarmStateChanged) then
-    m:publish(statusCentralAlarmTopic, centralAlarmState, 0, 0)
+    m:publish(statusCentralAlarmTopic, centralAlarmState, 0, 1)
     print("centralAlarmState " .. centralAlarmState)
     centralAlarmStateChanged = centralAlarmState
   end

@@ -1,7 +1,7 @@
 wifi.setmode(wifi.SOFTAP)
 cfg = {}
-cfg.ssid="ALARM_MOD_V2"
-cfg.pwd="123456789"
+cfg.ssid="ALARM_MODULE"
+cfg.pwd="12345678910"
 wifi.ap.config(cfg)
 print("Mode Wifi: AP")
 
