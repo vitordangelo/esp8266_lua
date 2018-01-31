@@ -32,16 +32,16 @@ m:on("message", function(client, topic, data)
     if data == "1" then
       armCentralAlarm()
     end
-    if data == "3" then
+    if data == "5" then
       relayTimedOutputOn()
     end
-    if data == "4" then
+    if data == "6" then
       relayTimedOutputOff()
     end
-    if data == "5" then
+    if data == "3" then
       relayOutputFixedOn()
     end
-    if data == "6" then
+    if data == "4" then
       relayOutputFixedOff()
     end
   end

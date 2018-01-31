@@ -1,0 +1,1 @@
+uart.on("data","\n",function(data) print("receive from uart:", data) end, 0)
