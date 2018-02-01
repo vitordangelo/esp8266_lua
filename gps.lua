@@ -10,12 +10,14 @@ uart.on("data","\n",function(data)
 
     local latGP = string.sub(data, 21, 22)
     local latGP1 = string.sub(data, 23, 29)
-    local num1 = tonumber(latGP)
-    local num2 = tonumber(latGP1)
-    print(num1)
-    print(num2)
-    print(type(num1))
-    print(type(num2))
+
+    local part1 = string.sub(latGP1, 1, 2)
+    local part2 = string.sub(latGP1, 3, 6)
+    local part3 = part1 .. part2
+    
+    print(part1)
+    print(part2)
+
   end
 end, 0)
 

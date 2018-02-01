@@ -6,5 +6,5 @@ wifi.sta.config(wifi_config)
 
 tmr.alarm(1, 10000, 0, function()
   print(wifi.sta.getip())
-  dofile("module.lua")
+  -- dofile("module.lua")
 end)
