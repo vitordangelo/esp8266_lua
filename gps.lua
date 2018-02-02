@@ -33,3 +33,25 @@ end, 0)
 -- 10601.6986 ---> 106+1.6986/60 = 106.02831 degrees
 
 -- 2215.662 ----> 22 + 15.662/60 = 22.2610
+
+-- local data = "$GPRMC,132039.000,A,2215.3513,S,04541.7069,W,0.34,196.16,310118,,,A*63"
+
+-- if (string.sub(data, 2, 6) == "GPRMC") then
+--     -- print("Hora: ", string.sub(data, 8, 13))
+--     local hora = string.sub(data, 8, 9)
+--     local minutos = string.sub(data, 10, 11)
+--     local segundos = string.sub(data, 12, 13)
+--     print("Hora: ", hora .. ":" .. minutos .. ":" .. segundos)
+
+--     local latGP = string.sub(data, 21, 22)
+--     local latGP1 = string.sub(data, 23, 30)
+
+--     local part1 = string.sub(latGP1, 1, 2)
+--     local part2 = string.sub(latGP1, 4, 7)
+--     local part3 = part1 .. part2
+    
+--     print(part1)
+--     print(part2)
+--     print(part1 + ((part3/10000))/60)
+
+--  end
