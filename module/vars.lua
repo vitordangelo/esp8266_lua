@@ -25,6 +25,7 @@ centralAlarmStateChanged = 0
 idTimerReset = 1
 idTimerCentralAlarmState = 2
 idTimerCentralAlarmTrigger = 3
+idTimerRelayTimer = 4
 
 --Topics
 statusModuleTopic = "v2tech/".. hash .."/state_alarm" 
@@ -33,3 +34,4 @@ statusRelayFixedTopic = "v2tech/".. hash .."/status_btn_fixed"
 statusRelayTimedTopic = "v2tech/".. hash .."/status_btn_temp"
 statusArmDisarmCentralAlarmTopic = "v2tech/".. hash .."/arm_disarm"
 statusTriggerTopic = "v2tech/".. hash .."/trigger_state"
+timerRelayTimedTopic = "v2tech/".. hash .."/timer_btn_temp"

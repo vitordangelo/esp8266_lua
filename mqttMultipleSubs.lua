@@ -20,24 +20,24 @@ end)
 
 m:connect("v2alarm.ddns.net",1883,0,0)
 
-m:on("message", function(client, topic1, data) 
+m:on("message", function(client, topic, data) 
   if data ~= nil then
     print(data)
-  end
-end)
+    print(topic)
 
-m:on("message", function(client, topic2, data) 
-  if data ~= nil then
-    print(data)
-  end
-end)
+    if (topic == topic1) then
+      print("Is topic 1")
+    end
+    if (topic == topic2) then
+      print("Is topic 2")
+    end
+    if (topic == topic3) then
+      print("Is topic 3")
+    end
 
-m:on("message", function(client, topic3, data) 
-  if data ~= nil then
-    print(data)
-    gpio.write(4, 1)
-    tmr.alarm(0, data, 0, function()
-      gpio.write(4, 0)
-    end)
+    -- gpio.write(4, 1)
+    -- tmr.alarm(0, data, 0, function()
+    --   gpio.write(4, 0)
+    -- end)
   end
 end)

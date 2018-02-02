@@ -6,8 +6,11 @@ m = mqtt.Client(hash, 5)
 m:lwt(statusModuleTopic, "0", 0, 0)
 
 m:on("connect",function(m) 
-  print("Connected to broker... ") 
-  m:subscribe(statusArmDisarmCentralAlarmTopic, 0, function(m) print("sub done") end)
+  print("Connecting to broker... ") 
+  m:subscribe({[statusArmDisarmCentralAlarmTopic]=0, [timerRelayTimedTopic]=0}, 
+    0, function(m) print("sub done") 
+  end)
+  
   m:publish(statusModuleTopic, "1", 0, 1)
   m:publish(statusRelayFixedTopic, "0", 0, 1)
   m:publish(statusRelayTimedTopic, "0", 0, 1)
@@ -25,24 +28,31 @@ m:connect("v2alarm.ddns.net",1883,0,0)
 
 m:on("message", function(client, topic, data) 
   if data ~= nil then
-    print(data)
-    if data == "0" then
-      disarmCentralAlarm()
+    if (topic == statusArmDisarmCentralAlarmTopic) then
+      print(data)
+      if data == "0" then
+        disarmCentralAlarm()
+      end
+      if data == "1" then
+        armCentralAlarm()
+      end
+      if data == "3" then
+        relayOutputFixedOn()
+      end
+      if data == "4" then
+        relayOutputFixedOff()
+      end
     end
-    if data == "1" then
-      armCentralAlarm()
-    end
-    if data == "5" then
-      relayTimedOutputOn()
-    end
-    if data == "6" then
-      relayTimedOutputOff()
-    end
-    if data == "3" then
-      relayOutputFixedOn()
-    end
-    if data == "4" then
-      relayOutputFixedOff()
+
+    if (topic == timerRelayTimedTopic) then
+      print("Relay Timed On")
+      gpio.write(relayTimedOutput, 1)
+      m:publish(statusRelayTimedTopic, "1", 0, 1)
+      tmr.alarm(idTimerRelayTimer, data, 0, function()
+        gpio.write(relayTimedOutput, 0)
+        m:publish(statusRelayTimedTopic, "0", 0, 0)
+        print("Relay Timed Off")
+      end)
     end
   end
 end)
@@ -59,20 +69,6 @@ relayOutputFixedOff = function
   gpio.write(relayOutput, 0)
   m:publish(statusRelayFixedTopic, "0", 0, 1)
   print("relayOutputFixedOff")
-end
-
-relayTimedOutputOn = function 
-  ()
-  gpio.write(relayTimedOutput, 1)
-  m:publish(statusRelayTimedTopic, "1", 0, 1)
-  print("relayTimedOutputOn")
-end
-
-relayTimedOutputOff = function 
-  ()
-  gpio.write(relayTimedOutput, 0)
-  m:publish(statusRelayTimedTopic, "0", 0, 1)
-  print("relayTimedOutputOff")
 end
 
 armCentralAlarm = function 
