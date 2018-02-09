@@ -9,3 +9,5 @@ sudo python nodemcu-uploader.py --port /dev/ttyUSB0 file list
 sudo python nodemcu-uploader.py --port /dev/ttyUSB0 node restart
 
 sudo python nodemcu-uploader.py --port /dev/ttyUSB0 file print init.lua
+
+sudo python nodemcu-uploader.py --port /dev/ttyUSB0 terminal
