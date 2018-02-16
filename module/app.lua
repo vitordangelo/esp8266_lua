@@ -3,7 +3,7 @@ print(statusModuleTopic)
 print(hash  )
 
 m = mqtt.Client(hash, 10)
-m:lwt(statusModuleTopic, "0", 0, 0)
+m:lwt(statusModuleTopic, "0", 0, 1)
 
 m:on("connect",function(m) 
   print("Connecting to broker... ") 
