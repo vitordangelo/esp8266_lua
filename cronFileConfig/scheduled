@@ -1,2 +1,3 @@
-{"scheduled": "* * * * *", "pin": 1}
-{"scheduled": "* * * * *", "pin": 1}
+{"scheduled": "*/2 * * * *", "pin": 1}
+{"scheduled": "1-59/2 * * * *", "pin": 1}
+{"scheduled": "*/5 * * * *", "pin": 1}
