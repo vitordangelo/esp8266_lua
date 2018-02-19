@@ -6,3 +6,7 @@ sntp.sync("224.0.1.1",
    print('failed!')
   end
 )
+
+cron.schedule("* * * * *", function(e)
+  print("Every minute")
+end)
