@@ -16,6 +16,7 @@ m:on("connect",function(m)
   m:publish(statusRelayTimedTopic, "0", 0, 1)
   m:publish(statusTriggerTopic, "0", 0, 1)
   m:publish(statusCentralAlarmTopic, "0", 0, 1)
+  m:publish(timerTempTopic, "0", 0, 1)
 end )
 
 m:on("offline", function(conn)
@@ -48,11 +49,16 @@ m:on("message", function(client, topic, data)
       print("Relay Timed On")
       gpio.write(relayTimedOutput, 1)
       m:publish(statusRelayTimedTopic, "1", 0, 1)
-      tmr.alarm(idTimerRelayTimer, data, 0, function()
-        gpio.write(relayTimedOutput, 0)
-        m:publish(statusRelayTimedTopic, "0", 0, 1)
-        print("Relay Timed Off")
-      end)
+
+      if(tonumber(data) > 0) then
+        print("Btn Timer Actived")
+        tmr.alarm(idTimerRelayTimer, data, 0, function()
+          gpio.write(relayTimedOutput, 0)
+          m:publish(statusRelayTimedTopic, "0", 0, 1)
+          print("Relay Timed Off")
+        end)
+      end
+
     end
   end
 end)
