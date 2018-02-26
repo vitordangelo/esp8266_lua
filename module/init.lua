@@ -20,6 +20,7 @@ if file.exists("ssid.txt") then
     dofile("vars.lua")
     dofile("app.lua")
     -- dofile("reset.lua")
+    dofile("restart.lua")
   end)
 
   else

@@ -16,7 +16,7 @@ m:on("connect",function(m)
   m:publish(statusRelayTimedTopic, "0", 0, 1)
   m:publish(statusTriggerTopic, "0", 0, 1)
   m:publish(statusCentralAlarmTopic, "0", 0, 1)
-  m:publish(timerTempTopic, "0", 0, 1)
+  m:publish(timerTempTopic, "1000", 0, 1)
 end )
 
 m:on("offline", function(conn)

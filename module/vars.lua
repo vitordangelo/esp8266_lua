@@ -26,6 +26,7 @@ idTimerReset = 1
 idTimerCentralAlarmState = 2
 idTimerCentralAlarmTrigger = 3
 idTimerRelayTimer = 4
+idTimerRestart = 5
 
 --Topics
 statusModuleTopic = "v2tech/".. hash .."/state_alarm" 
