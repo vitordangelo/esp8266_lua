@@ -8,7 +8,6 @@ print("Mode Wifi: AP")
 parseJson = function (data)
   local ssid
   local password
-  local hash
 
   t = sjson.decode(data)
   for key, value in pairs(t) do 
@@ -18,23 +17,15 @@ parseJson = function (data)
     if key == "password" then
       password = value
     end
-    if key == "hash" then
-      hash = value
-    end
   end  
   print(ssid)
   print(password)
-  print(hash)
   if file.open("ssid.txt", "a+") then
     file.write(ssid)
     file.close()
   end
   if file.open("password.txt", "a+") then
     file.write(password)
-    file.close()
-  end
-  if file.open("hash.txt", "a+") then
-    file.write(hash)
     file.close()
   end
 end
