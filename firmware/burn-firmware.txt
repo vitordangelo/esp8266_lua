@@ -1,7 +1,8 @@
 sudo esptool.py --port /dev/ttyUSB0 --baud 115200 erase_flash
-
 sudo esptool.py --port /dev/ttyUSB0 --baud 115200 write_flash -fm dio -fs 32m 0x00000 nodemcu-master-20-modules-2018-02-14-17-32-59-integer.bin  
 
-sudo esptool.py --port /dev/ttyUSB0 read_flash 0x00000 0x100000 hack.bin
 
-sudo esptool.py --port /dev/ttyUSB1 --baud 115200 write_flash -fs 1MB -fm dout 0x0 sonoff.bin
+
+
+sudo esptool.py --port /dev/ttyUSB0 read_flash 0x00000 0x100000 hack.bin
+sudo esptool.py --port /dev/ttyUSB0 --baud 115200 write_flash -fs 1MB -fm dout 0x0 hack.bin

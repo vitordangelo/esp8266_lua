@@ -1,6 +1,6 @@
 print("App...")
 print(statusModuleTopic)
-print(hash  )
+print(hash)
 
 m = mqtt.Client(hash, 10)
 m:lwt(statusModuleTopic, "0", 0, 1)
@@ -11,12 +11,12 @@ m:on("connect",function(m)
     0, function(m) print("sub done") 
   end)
   
-  m:publish(statusModuleTopic, "1", 0, 1)
-  m:publish(statusRelayFixedTopic, "0", 0, 1)
-  m:publish(statusRelayTimedTopic, "0", 0, 1)
-  m:publish(statusTriggerTopic, "0", 0, 1)
-  m:publish(statusCentralAlarmTopic, "0", 0, 1)
-  m:publish(timerTempTopic, "1000", 0, 1)
+  m:publish(statusModuleTopic, "1", 2, 1)
+  m:publish(statusRelayFixedTopic, "0", 2, 1)
+  m:publish(statusRelayTimedTopic, "0", 2, 1)
+  m:publish(statusTriggerTopic, "0", 2, 1)
+  m:publish(statusCentralAlarmTopic, "0", 2, 1)
+  m:publish(timerTempTopic, "1000", 2, 1)
 end )
 
 m:on("offline", function(conn)
@@ -48,13 +48,13 @@ m:on("message", function(client, topic, data)
     if (topic == timerRelayTimedTopic) then
       print("Relay Timed On")
       gpio.write(relayTimedOutput, 1)
-      m:publish(statusRelayTimedTopic, "1", 0, 1)
+      m:publish(statusRelayTimedTopic, "1", 2, 1)
 
       if(tonumber(data) > 0) then
         print("Btn Timer Actived")
         tmr.alarm(idTimerRelayTimer, data, 0, function()
           gpio.write(relayTimedOutput, 0)
-          m:publish(statusRelayTimedTopic, "0", 0, 1)
+          m:publish(statusRelayTimedTopic, "0", 2, 1)
           print("Relay Timed Off")
         end)
       end
@@ -66,14 +66,14 @@ end)
 relayOutputFixedOn = function 
   ()
   gpio.write(relayOutput, 1)
-  m:publish(statusRelayFixedTopic, "1", 0, 1)
+  m:publish(statusRelayFixedTopic, "1", 2, 1)
   print("relayOutputFixedOn")
 end
 
 relayOutputFixedOff = function 
   ()
   gpio.write(relayOutput, 0)
-  m:publish(statusRelayFixedTopic, "0", 0, 1)
+  m:publish(statusRelayFixedTopic, "0", 2, 1)
   print("relayOutputFixedOff")
 end
 
@@ -92,7 +92,7 @@ end
 tmr.alarm(idTimerCentralAlarmTrigger, 1000, 1, function()
   alarmTrigger = gpio.read(centralAlarmTrigger)
   if (alarmTrigger ~= alarmTriggerChanged) then
-    m:publish(statusTriggerTopic, alarmTrigger, 0, 1)
+    m:publish(statusTriggerTopic, alarmTrigger, 2, 1)
     print("alarmTrigger: " .. alarmTrigger)
     alarmTriggerChanged = alarmTrigger
   end
@@ -101,7 +101,7 @@ end)
 tmr.alarm(idTimerCentralAlarmState, 1000, 1, function()
   centralAlarmState = gpio.read(centralAlarmStateInput)
   if (centralAlarmState ~= centralAlarmStateChanged) then
-    m:publish(statusCentralAlarmTopic, centralAlarmState, 0, 1)
+    m:publish(statusCentralAlarmTopic, centralAlarmState, 2, 1)
     print("centralAlarmState " .. centralAlarmState)
     centralAlarmStateChanged = centralAlarmState
   end

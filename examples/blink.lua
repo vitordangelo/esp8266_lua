@@ -1,6 +1,6 @@
 timerId = 0
-dly = 500
-ledPin = 7
+dly = 2000
+ledPin = 6
 gpio.mode(ledPin,gpio.OUTPUT)
 ledState = 0
 ctrl = 0
