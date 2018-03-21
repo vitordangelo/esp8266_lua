@@ -1,6 +1,6 @@
-timerId = 0
+timerId = 3
 dly = 2000
-ledPin = 6
+ledPin = 4
 gpio.mode(ledPin,gpio.OUTPUT)
 ledState = 0
 ctrl = 0
