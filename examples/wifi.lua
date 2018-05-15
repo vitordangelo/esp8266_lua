@@ -1,6 +1,6 @@
 wifi.setmode(wifi.STATION)
 wifi_config = {}
-wifi_config.ssid="DVRTESTE"
+wifi_config.ssid="V2Tech"
 wifi_config.pwd="v2techwifi"
 wifi.sta.config(wifi_config)
 
