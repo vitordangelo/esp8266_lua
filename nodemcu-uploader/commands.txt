@@ -1,13 +1,13 @@
-sudo python nodemcu-uploader.py --port /dev/ttyUSB0  upload *.lua --compile
+nodemcu-uploader --port /dev/ttyUSB0  upload *.lua --compile
 
-sudo python nodemcu-uploader.py --port /dev/ttyUSB0  upload *.txt
+nodemcu-uploader --port /dev/ttyUSB0  upload *.txt
 
-sudo python nodemcu-uploader.py --port /dev/ttyUSB0 file format
+nodemcu-uploader --port /dev/ttyUSB0 file format
 
-sudo python nodemcu-uploader.py --port /dev/ttyUSB0 file list
+nodemcu-uploader --port /dev/ttyUSB0 file list
 
-sudo python nodemcu-uploader.py --port /dev/ttyUSB0 node restart
+nodemcu-uploader --port /dev/ttyUSB0 node restart
 
-sudo python nodemcu-uploader.py --port /dev/ttyUSB0 file print init.lua
+nodemcu-uploader --port /dev/ttyUSB0 file print init.lua
 
-sudo python nodemcu-uploader.py --port /dev/ttyUSB0 terminal
+nodemcu-uploader --port /dev/ttyUSB0 terminal
