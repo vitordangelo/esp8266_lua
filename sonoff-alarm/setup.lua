@@ -9,7 +9,7 @@ local function getIP()
     print("ID: " .. config.ID)
     print("MAC address is: " .. wifi.ap.getmac())
     print("IP is " .. wifi.sta.getip())
-    -- app.start()
+    app.start()
   end
 end
 

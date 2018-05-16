@@ -40,32 +40,32 @@ local function mqttSubsribe()
 end
 
 local function mqttStart()
-    m = mqtt.Client("Sonoff (ID=" .. config.ID .. ")", 180, config.MQTT_USER, config.MQTT_PASSWORD)
+	m = mqtt.Client("Sonoff (ID=" .. config.ID .. ")", 180, config.MQTT_USER, config.MQTT_PASSWORD)
 
-    m:lwt("/lwt", "Sonoff " .. config.ID, 0, 0)
+	m:lwt("/lwt", "Sonoff " .. config.ID, 0, 0)
 
-    m:on("offline", function(c)
-        ip = wifi.sta.getip()
-        tmr.alarm(2, 5000, 0, function()
-            node.restart();
-        end)
-    end)
+	m:on("offline", function(c)
+		ip = wifi.sta.getip()
+		tmr.alarm(2, 5000, 0, function()
+			node.restart();
+		end)
+	end)
 
-    m:on("message", function(c, t, d)
-        blink()
-        if (d == "turnON") then
-            setON()
-        elseif (d == "turnOFF") then
-            setOFF()
-        elseif (d == "reportState") then
-            publishMessage()
-        end
-    end)
+	-- m:on("message", function(c, t, d)
+	-- 	blink()
+	-- 	if (d == "turnON") then
+	-- 		setON()
+	-- 	elseif (d == "turnOFF") then
+	-- 		setOFF()
+	-- 	elseif (d == "reportState") then
+	-- 		publishMessage()
+	-- 	end
+	-- end)
 
-    m:connect(config.MQTT_HOST, config.MQTT_PORT, 0, function(c)
-        gpio.write(config.LED, gpio.HIGH)
-        mqttSubsribe()
-    end)
+	m:connect(config.MQTT_HOST, config.MQTT_PORT, 0, function(c)
+		gpio.write(config.LED, gpio.HIGH)
+		-- mqttSubsribe()
+	end)
 end
 
 
@@ -79,19 +79,25 @@ function module.start()
   mqttStart()
 
   buttonPressed = false
-
+  buttonTimer = 0
+  longPressTime = 10000000
+  
   gpio.trig(config.BUTTON, "down", function(L)
     if (buttonPressed == false) then
       buttonPressed = true
       tmr.alarm(3, 250, 0, function() buttonPressed = false; end)
-      if (gpio.read(config.RELAY) == 1) then
-        setOFF()
-      else
-        setON()
-      end
-      blink()
+      print("Desligar Sirene")
+			buttonTimer = tmr.now()
+			print(buttonTimer)
     end
-  end)
+	end)
+	
+	tmr.alarm(4, 100, 1, function()
+		if ((tmr.now() - buttonTimer > longPressTime) and gpio.read(config.BUTTON) == 0) then
+			print("Resetar")
+		end
+	end)
+
 end
 
 return module
