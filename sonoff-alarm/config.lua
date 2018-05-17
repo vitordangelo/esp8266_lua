@@ -17,4 +17,10 @@ module.RELAY = 6
 module.LED = 7
 module.REEDSWITCH = 5
 
+-- Topics
+module.TOPIC_STATUS_DEVICE = "/sonoff/alarm/" .. node.chipid() .. "/status"
+module.TOPIC_TRIGGER = "/sonoff/alarm/" .. node.chipid() .. "/trigger"
+module.TOPIC_SIREN = "/sonoff/alarm/" .. node.chipid() .. "/siren"
+module.TOPIC_ARM_DISARM_ALARM = "/sonoff/alarm/" .. node.chipid() .. "/arm_disarm"
+
 return module
