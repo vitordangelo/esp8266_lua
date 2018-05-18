@@ -1,5 +1,6 @@
 local module = {}
 
+alarmArmDisarm = false
 m = nil
 
 local function mqttSubsribe()
@@ -25,10 +26,13 @@ local function mqttStart()
 			-- print("Topic: "..topic)
 			if (topic == config.TOPIC_ARM_DISARM_ALARM) then
 				if (data == "0") then
+					alarmArmDisarm = false
 					utils.twoBeepSiren()
 				end
 				if (data == "1") then
+					alarmArmDisarm = true
 					utils.oneBeepSiren()
+					utils.triggerAlarm()
 				end
 			end
 		end
@@ -71,5 +75,11 @@ function module.start()
 	end)
 
 end
+
+tmr.alarm(6, 250, 1, function()
+	if ((gpio.read(config.REEDSWITCH) == 0) and alarmArmDisarm == true) then
+		utils.triggerAlarm()
+	end
+end)
 
 return module

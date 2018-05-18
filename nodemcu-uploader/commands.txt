@@ -6,6 +6,8 @@ nodemcu-uploader --port /dev/ttyUSB0 file format
 
 nodemcu-uploader --port /dev/ttyUSB0 file list
 
+nodemcu-uploader --port /dev/ttyUSB0 file format
+
 nodemcu-uploader --port /dev/ttyUSB0 node restart
 
 nodemcu-uploader --port /dev/ttyUSB0 file print init.lua
