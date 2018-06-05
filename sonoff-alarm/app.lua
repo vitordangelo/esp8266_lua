@@ -13,7 +13,7 @@ m = nil
 -- end
 
 tmr.alarm(6, 250, 1, function()
-	if ((gpio.read(config.REEDSWITCH) == 0) and alarmArmDisarm == true) then
+	if ((gpio.read(config.REEDSWITCH) == 1) and alarmArmDisarm == true) then
 		utils.triggerAlarm()
 		utils.triggerAlarmLed()
 		print('Alarme disparado...')
