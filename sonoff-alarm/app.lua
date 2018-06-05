@@ -3,13 +3,22 @@ local module = {}
 alarmArmDisarm = false
 m = nil
 
-local function inputWatch()
-	tmr.alarm(6, 250, 1, function()
-		if ((gpio.read(config.REEDSWITCH) == 0) and alarmArmDisarm == true) then
-			utils.triggerAlarm()
-		end
-	end)
-end
+-- local function inputWatch()
+-- 	tmr.alarm(6, 250, 1, function()
+-- 		if ((gpio.read(config.REEDSWITCH) == 0) and alarmArmDisarm == true) then
+-- 			utils.triggerAlarm()
+-- 			utils.triggerAlarmLed()
+-- 		end
+-- 	end)
+-- end
+
+tmr.alarm(6, 250, 1, function()
+	if ((gpio.read(config.REEDSWITCH) == 0) and alarmArmDisarm == true) then
+		utils.triggerAlarm()
+		utils.triggerAlarmLed()
+		print('Alarme disparado...')
+	end
+end)
 
 local function mqttSubsribe()
 	m:subscribe({[config.TOPIC_SIREN]=0, [config.TOPIC_ARM_DISARM_ALARM]=0}, 
@@ -36,10 +45,13 @@ local function mqttStart()
 				if (data == "0") then
 					alarmArmDisarm = false
 					utils.twoBeepSiren()
+					utils.ledAlarmDisarmed()
+					utils.offSiren()
 				end
 				if (data == "1") then
 					alarmArmDisarm = true
 					utils.oneBeepSiren()
+					utils.ledAlarmArmed()
 				end
 			end
 		end
@@ -55,7 +67,7 @@ end
 function module.start()
   gpio.mode(config.RELAY, gpio.OUTPUT)
   gpio.mode(config.LED, gpio.OUTPUT)
-  gpio.write(config.LED, gpio.HIGH)
+  gpio.write(config.LED, gpio.LOW)
   gpio.mode(config.BUTTON, gpio.INPUT, gpio.PULLUP)
   gpio.mode(config.REEDSWITCH, gpio.INPUT, gpio.PULLUP)
 
@@ -63,14 +75,17 @@ function module.start()
 
   buttonPressed = false
   buttonTimer = 0
-  longPressTime = 10000000
+  longPressTime = 5000000
   
   gpio.trig(config.BUTTON, "down", function(L)
     if (buttonPressed == false) then
       buttonPressed = true
       tmr.alarm(3, 250, 0, function() buttonPressed = false; end)
-      print("Desligar Sirene")
+			print("Desligar Sirene")
+			utils.offSiren()
+			utils.ledAlarmDisarmed()
 			buttonTimer = tmr.now()
+			alarmArmDisarm = false
 			print(buttonTimer)
     end
 	end)
@@ -80,7 +95,7 @@ function module.start()
 			print("Resetar")
 		end
 	end)
-
+	utils.ledAlarmDisarmed()
 end
 
 return module

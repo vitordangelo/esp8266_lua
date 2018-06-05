@@ -32,4 +32,28 @@ function module.offSiren()
   gpio.write(config.RELAY, 0)
 end
 
+function module.ledAlarmArmed()
+  ledState = 0
+  tmr.alarm(2, 500, 1, function()
+    ledState = 1 - ledState
+    gpio.write(config.LED, ledState)
+  end)
+end
+
+function module.ledAlarmDisarmed()
+  ledState = 0
+  tmr.alarm(2, 2000, 1, function()
+    ledState = 1 - ledState
+    gpio.write(config.LED, ledState)
+  end)
+end
+
+function module.triggerAlarmLed()
+  ledState = 0
+  tmr.alarm(2, 100, 1, function()
+    ledState = 1 - ledState
+    gpio.write(config.LED, ledState)
+  end)
+end
+
 return module
