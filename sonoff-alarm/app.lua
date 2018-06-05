@@ -17,6 +17,7 @@ tmr.alarm(6, 250, 1, function()
 		utils.triggerAlarm()
 		utils.triggerAlarmLed()
 		print('Alarme disparado...')
+		m:publish(config.TOPIC_TRIGGER, "1", 2, 1)
 	end
 end)
 
@@ -47,6 +48,7 @@ local function mqttStart()
 					utils.twoBeepSiren()
 					utils.ledAlarmDisarmed()
 					utils.offSiren()
+					m:publish(config.TOPIC_TRIGGER, "0", 2, 1)
 				end
 				if (data == "1") then
 					alarmArmDisarm = true
@@ -87,6 +89,7 @@ function module.start()
 			buttonTimer = tmr.now()
 			alarmArmDisarm = false
 			print(buttonTimer)
+			m:publish(config.TOPIC_TRIGGER, "0", 2, 1)
     end
 	end)
 	
