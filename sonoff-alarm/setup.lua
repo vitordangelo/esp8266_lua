@@ -14,9 +14,10 @@ local function getIP()
 end
 
 local function connect()
-  wifi.setmode(wifi.STATION);
-  wifi.sta.config(config.WIFI_SSID, config.WIFI_PASSWORD)
-  wifi.sta.connect()
+  wifi.setmode(wifi.STATION)
+  wifi_config = {}
+  wifi_config.ssid=config.WIFI_SSID
+  wifi_config.pwd=config.WIFI_PASSWORD
   print("Connecting to " .. config.WIFI_SSID .. " ...")
   tmr.alarm(1, 2500, 1, getIP)
 end

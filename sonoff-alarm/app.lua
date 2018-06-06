@@ -96,6 +96,7 @@ function module.start()
 	tmr.alarm(4, 100, 1, function()
 		if ((tmr.now() - buttonTimer > longPressTime) and gpio.read(config.BUTTON) == 0) then
 			print("Resetar")
+			utils.reset()
 		end
 	end)
 	utils.ledAlarmDisarmed()

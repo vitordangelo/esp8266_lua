@@ -56,4 +56,10 @@ function module.triggerAlarmLed()
   end)
 end
 
+function module.reset()
+  file.remove("ssid.txt")
+  file.remove("password.txt")
+  print("Reseting...")
+end
+
 return module
