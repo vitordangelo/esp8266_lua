@@ -18,6 +18,7 @@ tmr.alarm(6, 250, 1, function()
 		utils.triggerAlarmLed()
 		print('Alarme disparado...')
 		m:publish(config.TOPIC_TRIGGER, "1", 2, 1)
+		m:publish(config.TOPIC_STRENGTH_WIFI, wifi.sta.getrssi(), 2, 1)
 	end
 end)
 
