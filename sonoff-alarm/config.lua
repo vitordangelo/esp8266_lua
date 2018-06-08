@@ -1,9 +1,20 @@
 local module = {}
 
+if file.exists("ssid.txt") then
+  if file.open("ssid.txt") then
+    ssid = file.read()
+    file.close()
+  end
+  if file.open("password.txt") then
+    password = file.read()
+    file.close()
+  end
+end
+
 module.ID = node.chipid()
 
-module.WIFI_SSID = "V2Tech"
-module.WIFI_PASSWORD = "v2techwifi"
+module.WIFI_SSID = ssid
+module.WIFI_PASSWORD = password
 
 module.MQTT_HOST = "v2alarm.ddns.net"
 module.MQTT_PORT = 1883
@@ -13,7 +24,7 @@ module.MQTT_TOPIC = "/sonoff/alarm/"
 
 -- GPIO Configuration
 module.BUTTON = 3
-module.REEDSWITCH = 5
+module.ZONE3 = 5
 module.RELAY = 6
 module.LED = 7
 module.ZONE1 = 11

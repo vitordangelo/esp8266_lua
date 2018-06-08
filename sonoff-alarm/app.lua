@@ -2,10 +2,11 @@ local module = {}
 
 alarmArmDisarm = false
 m = nil
+control = true
 
 -- local function inputWatch()
 -- 	tmr.alarm(6, 250, 1, function()
--- 		if ((gpio.read(config.REEDSWITCH) == 0) and alarmArmDisarm == true) then
+-- 		if ((gpio.read(config.ZONE3) == 0) and alarmArmDisarm == true) then
 -- 			utils.triggerAlarm()
 -- 			utils.triggerAlarmLed()
 -- 		end
@@ -13,12 +14,12 @@ m = nil
 -- end
 
 tmr.alarm(6, 250, 1, function()
-	if ((gpio.read(config.REEDSWITCH) == 1) and alarmArmDisarm == true) then
+	if ((gpio.read(config.ZONE3) == 1) and alarmArmDisarm == true and control == true) then
 		utils.triggerAlarm()
 		utils.triggerAlarmLed()
 		print('Alarme disparado...')
 		m:publish(config.TOPIC_TRIGGER, "1", 2, 1)
-		m:publish(config.TOPIC_STRENGTH_WIFI, wifi.sta.getrssi(), 2, 1)
+		control = false
 	end
 end)
 
@@ -55,6 +56,7 @@ local function mqttStart()
 					alarmArmDisarm = true
 					utils.oneBeepSiren()
 					utils.ledAlarmArmed()
+					control = true
 				end
 			end
 		end
@@ -64,6 +66,7 @@ local function mqttStart()
 		print("Conecting to broker...")
 		mqttSubsribe()
 		m:publish(config.TOPIC_STATUS_DEVICE, "1", 2, 1)
+		m:publish(config.TOPIC_STRENGTH_WIFI, wifi.sta.getrssi(), 2, 1)
 	end)
 end
 
@@ -72,7 +75,7 @@ function module.start()
   gpio.mode(config.LED, gpio.OUTPUT)
   gpio.write(config.LED, gpio.LOW)
   gpio.mode(config.BUTTON, gpio.INPUT, gpio.PULLUP)
-  gpio.mode(config.REEDSWITCH, gpio.INPUT, gpio.PULLUP)
+  gpio.mode(config.ZONE3, gpio.INPUT, gpio.PULLUP)
 
   mqttStart()
 
