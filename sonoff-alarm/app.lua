@@ -17,8 +17,9 @@ tmr.alarm(6, 250, 1, function()
 	if ((gpio.read(config.ZONE3) == 1) and alarmArmDisarm == true and control == true) then
 		utils.triggerAlarm()
 		utils.triggerAlarmLed()
-		print('Alarme disparado...')
+		print('Zona 3')
 		m:publish(config.TOPIC_TRIGGER, "1", 2, 1)
+		m:publish(config.TOPIC_ZONE3, "1", 2, 1)
 		control = false
 	end
 end)
@@ -51,6 +52,9 @@ local function mqttStart()
 					utils.ledAlarmDisarmed()
 					utils.offSiren()
 					m:publish(config.TOPIC_TRIGGER, "0", 2, 1)
+					m:publish(config.TOPIC_ZONE1, "0", 2, 1)
+					m:publish(config.TOPIC_ZONE2, "0", 2, 1)
+					m:publish(config.TOPIC_ZONE3, "0", 2, 1)
 				end
 				if (data == "1") then
 					alarmArmDisarm = true
@@ -66,7 +70,7 @@ local function mqttStart()
 		print("Conecting to broker...")
 		mqttSubsribe()
 		m:publish(config.TOPIC_STATUS_DEVICE, "1", 2, 1)
-		m:publish(config.TOPIC_STRENGTH_WIFI, wifi.sta.getrssi(), 2, 1)
+		m:publish(config.TOPIC_STRENGTH_WIFI, utils.wifiPercent(), 2, 1)
 	end)
 end
 

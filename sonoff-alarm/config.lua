@@ -36,5 +36,8 @@ module.TOPIC_TRIGGER = "/sonoff/alarm/" .. node.chipid() .. "/trigger"
 module.TOPIC_SIREN = "/sonoff/alarm/" .. node.chipid() .. "/siren"
 module.TOPIC_ARM_DISARM_ALARM = "/sonoff/alarm/" .. node.chipid() .. "/arm_disarm"
 module.TOPIC_STRENGTH_WIFI = "/sonoff/alarm/" .. node.chipid() .. "/strength_wifi"
+module.TOPIC_ZONE1 = "/sonoff/alarm/" .. node.chipid() .. "/zone1"
+module.TOPIC_ZONE2 = "/sonoff/alarm/" .. node.chipid() .. "/zone2"
+module.TOPIC_ZONE3 = "/sonoff/alarm/" .. node.chipid() .. "/zone3"
 
 return module
