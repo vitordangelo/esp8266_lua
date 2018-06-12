@@ -24,11 +24,11 @@ module.MQTT_TOPIC = "/sonoff/alarm/"
 
 -- GPIO Configuration
 module.BUTTON = 3
-module.ZONE3 = 5
 module.RELAY = 6
 module.LED = 7
 module.ZONE1 = 11
 module.ZONE2 = 12
+module.ZONE3 = 5
 
 -- Topics
 module.TOPIC_STATUS_DEVICE = "/sonoff/alarm/" .. node.chipid() .. "/status"

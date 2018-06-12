@@ -14,7 +14,25 @@ control = true
 -- end
 
 tmr.alarm(6, 250, 1, function()
-	if ((gpio.read(config.ZONE3) == 1) and alarmArmDisarm == true and control == true) then
+	if ((gpio.read(config.ZONE1) == 0) and alarmArmDisarm == true and control == true) then
+		utils.triggerAlarm()
+		utils.triggerAlarmLed()
+		print('Zona 1')
+		m:publish(config.TOPIC_TRIGGER, "1", 2, 1)
+		m:publish(config.TOPIC_ZONE1, "1", 2, 1)
+		control = false
+	end
+
+	if ((gpio.read(config.ZONE2) == 0) and alarmArmDisarm == true and control == true) then
+		utils.triggerAlarm()
+		utils.triggerAlarmLed()
+		print('Zona 2')
+		m:publish(config.TOPIC_TRIGGER, "1", 2, 1)
+		m:publish(config.TOPIC_ZONE2, "1", 2, 1)
+		control = false
+	end
+
+	if ((gpio.read(config.ZONE3) == 0) and alarmArmDisarm == true and control == true) then
 		utils.triggerAlarm()
 		utils.triggerAlarmLed()
 		print('Zona 3')
@@ -79,6 +97,8 @@ function module.start()
   gpio.mode(config.LED, gpio.OUTPUT)
   gpio.write(config.LED, gpio.LOW)
   gpio.mode(config.BUTTON, gpio.INPUT, gpio.PULLUP)
+  gpio.mode(config.ZONE1, gpio.INPUT, gpio.PULLUP)
+  gpio.mode(config.ZONE2, gpio.INPUT, gpio.PULLUP)
   gpio.mode(config.ZONE3, gpio.INPUT, gpio.PULLUP)
 
   mqttStart()
