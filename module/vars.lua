@@ -1,17 +1,17 @@
 --Input
 centralAlarmStateInput = 5
 gpio.mode(centralAlarmStateInput, gpio.INPUT, gpio.PULLUP)
-centralAlarmTrigger = 8
+centralAlarmTrigger = 6
 gpio.mode(centralAlarmTrigger, gpio.INPUT, gpio.PULLUP)
-btnReset = 6
+btnReset = 1
 gpio.mode(btnReset, gpio.INPUT, gpio.PULLUP)
 
 --Output
 relayTimedOutput = 7
 gpio.mode(relayTimedOutput, gpio.OUTPUT)
-relayOutput = 1
+relayOutput = 4
 gpio.mode(relayOutput, gpio.OUTPUT)
-armDisarmOutput = 2
+armDisarmOutput = 0
 gpio.mode(armDisarmOutput, gpio.OUTPUT)
 
 --Variables Control
